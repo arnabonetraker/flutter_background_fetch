@@ -11,47 +11,47 @@ const _EVENT_CHANNEL_NAME = "$_PLUGIN_PATH/events";
 enum TaskType { DEFAULT, HEALTH_RESEARCH }
 
 /// Available NetworkType for use with [AbstractTaskConfig.networkType].
-enum NetworkType {
-  /// This job doesn't care about network constraints, either any or none.
-  NONE,
+// enum NetworkType {
+//   /// This job doesn't care about network constraints, either any or none.
+//   NONE,
 
-  /// This job requires network connectivity.
-  ANY,
+//   /// This job requires network connectivity.
+//   ANY,
 
-  /// This job requires network connectivity that is unmetered.
-  UNMETERED,
+//   /// This job requires network connectivity that is unmetered.
+//   UNMETERED,
 
-  /// This job requires network connectivity that is not roaming.
-  NOT_ROAMING,
+//   /// This job requires network connectivity that is not roaming.
+//   NOT_ROAMING,
 
-  /// This job requires network connectivity that is a cellular network.
-  CELLULAR
-}
+//   /// This job requires network connectivity that is a cellular network.
+//   CELLULAR
+// }
 
 /// Event object provided to registered headlessTask.
-class HeadlessTask {
-  /// The task identifier
-  String taskId;
+// class HeadlessTask {
+//   /// The task identifier
+//   String taskId;
 
-  /// Signals whether this headless-task has timeout out.
-  bool timeout;
+//   /// Signals whether this headless-task has timeout out.
+//   bool timeout;
 
-  /// Create a new HeadlessTask instance.
-  /// Automatically instantitated and provided to your registered headless task.
-  HeadlessTask(this.taskId, this.timeout);
-}
+//   /// Create a new HeadlessTask instance.
+//   /// Automatically instantitated and provided to your registered headless task.
+//   HeadlessTask(this.taskId, this.timeout);
+// }
 
 /// Base class for both [BackgroundFetchConfig] and [TaskConfig].
 ///
 class _AbstractTaskConfig {
   /// __Android only__: Set `false` to continue background-fetch events after user terminates the app. Default to `true`.
-  bool? stopOnTerminate;
+  // bool? stopOnTerminate;
 
   /// __Android only__: Set `true` to initiate background-fetch events when the device is rebooted. Defaults to `false`.
   ///
   /// ❗ NOTE: [startOnBoot] requires [stopOnTerminate]: `false`.
   ///
-  bool? startOnBoot;
+  // bool? startOnBoot;
 
   /// __Android only__: Set true to enable the Headless mechanism, for handling fetch events after app termination.
   ///
@@ -92,12 +92,12 @@ class _AbstractTaskConfig {
   ///   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
   /// }
   /// ```
-  bool? enableHeadless;
+  // bool? enableHeadless;
 
   /// __Android only__: Set true to force Task to use Android `AlarmManager` mechanism rather than `JobScheduler`.
   /// Defaults to `false`.  Will result in more precise scheduling of tasks **at the cost of higher battery usage.**
   ///
-  bool? forceAlarmManager;
+  // bool? forceAlarmManager;
 
   /// [Android only] Set detailed description of the kind of network your job requires.
   ///
@@ -112,26 +112,26 @@ class _AbstractTaskConfig {
   ///	| [NetworkType.UNMETERED]   | This job requires network connectivity that is unmetered.            |
   ///	| [NetworkType.NOT_ROAMING] | This job requires network connectivity that is not roaming.          |
   ///
-  NetworkType? requiredNetworkType;
+  // NetworkType? requiredNetworkType;
 
   ///
   /// [Android only] Specify that to run this job, the device's battery level must not be low.
   ///
   ///This defaults to false. If true, the job will only run when the battery level is not low, which is generally the point where the user is given a "low battery" warning.
   ///
-  bool? requiresBatteryNotLow;
+  // bool? requiresBatteryNotLow;
 
   ///
   /// [Android only] Specify that to run this job, the device's available storage must not be low.
   ///
   /// This defaults to false. If true, the job will only run when the device is not in a low storage state, which is generally the point where the user is given a "low storage" warning.
   ///
-  bool? requiresStorageNotLow;
+  // bool? requiresStorageNotLow;
 
   ///
   /// [Android only] Specify that to run this job, the device must be charging (or be a non-battery-powered device connected to permanent power, such as Android TV devices). This defaults to false.
   ///
-  bool? requiresCharging;
+  // bool? requiresCharging;
 
   ///
   /// [Android only] When set true, ensure that this job will not run if the device is in active use.
@@ -140,43 +140,46 @@ class _AbstractTaskConfig {
   ///
   /// This state is a loose definition provided by the system. In general, it means that the device is not currently being used interactively, and has not been in use for some time. As such, it is a good time to perform resource heavy jobs. Bear in mind that battery usage will still be attributed to your application, and shown to the user in battery stats.
   ///
-  bool? requiresDeviceIdle;
+  // bool? requiresDeviceIdle;
 
   _AbstractTaskConfig(
-      {this.stopOnTerminate = true,
-      this.startOnBoot = false,
-      this.enableHeadless = false,
-      this.forceAlarmManager = false,
-      this.requiredNetworkType = NetworkType.NONE,
-      this.requiresBatteryNotLow = false,
-      this.requiresStorageNotLow = false,
-      this.requiresCharging = false,
-      this.requiresDeviceIdle = false});
+      // {
+      // this.stopOnTerminate = true,
+      // this.startOnBoot = false,
+      // this.enableHeadless = false,
+      // this.forceAlarmManager = false,
+      // this.requiredNetworkType = NetworkType.NONE,
+      // this.requiresBatteryNotLow = false,
+      // this.requiresStorageNotLow = false,
+      // this.requiresCharging = false,
+      // this.requiresDeviceIdle = false
+      // }
+      );
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> config = {};
-    if (stopOnTerminate != null) config['stopOnTerminate'] = stopOnTerminate;
-    if (startOnBoot != null) config['startOnBoot'] = startOnBoot;
-    if (enableHeadless != null) config['enableHeadless'] = enableHeadless;
-    if (forceAlarmManager != null) {
-      config['forceAlarmManager'] = forceAlarmManager;
-    }
-    if (requiredNetworkType != null) {
-      // https://stackoverflow.com/questions/65456958/dart-null-safety-doesnt-work-with-class-fields
-      config['requiredNetworkType'] = requiredNetworkType?.index;
-    }
-    if (requiresBatteryNotLow != null) {
-      config['requiresBatteryNotLow'] = requiresBatteryNotLow;
-    }
-    if (requiresStorageNotLow != null) {
-      config['requiresStorageNotLow'] = requiresStorageNotLow;
-    }
-    if (requiresCharging != null) {
-      config['requiresCharging'] = requiresCharging;
-    }
-    if (requiresDeviceIdle != null) {
-      config['requiresDeviceIdle'] = requiresDeviceIdle;
-    }
+    // if (stopOnTerminate != null) config['stopOnTerminate'] = stopOnTerminate;
+    // if (startOnBoot != null) config['startOnBoot'] = startOnBoot;
+    // if (enableHeadless != null) config['enableHeadless'] = enableHeadless;
+    // if (forceAlarmManager != null) {
+    //   config['forceAlarmManager'] = forceAlarmManager;
+    // }
+    // if (requiredNetworkType != null) {
+    //   // https://stackoverflow.com/questions/65456958/dart-null-safety-doesnt-work-with-class-fields
+    //   config['requiredNetworkType'] = requiredNetworkType?.index;
+    // }
+    // if (requiresBatteryNotLow != null) {
+    //   config['requiresBatteryNotLow'] = requiresBatteryNotLow;
+    // }
+    // if (requiresStorageNotLow != null) {
+    //   config['requiresStorageNotLow'] = requiresStorageNotLow;
+    // }
+    // if (requiresCharging != null) {
+    //   config['requiresCharging'] = requiresCharging;
+    // }
+    // if (requiresDeviceIdle != null) {
+    //   config['requiresDeviceIdle'] = requiresDeviceIdle;
+    // }
     return config;
   }
 }
@@ -210,25 +213,27 @@ class BackgroundFetchConfig extends _AbstractTaskConfig {
   /// Creates an instance of `BackgroundFetchConfig` to provide to [configure].
   BackgroundFetchConfig(
       {required this.minimumFetchInterval,
-      bool? stopOnTerminate,
-      bool? startOnBoot,
-      bool? enableHeadless,
-      bool? forceAlarmManager,
-      NetworkType? requiredNetworkType,
-      bool? requiresBatteryNotLow,
-      bool? requiresStorageNotLow,
-      bool? requiresCharging,
-      bool? requiresDeviceIdle})
+      // bool? stopOnTerminate,
+      // bool? startOnBoot,
+      // bool? enableHeadless,
+      // bool? forceAlarmManager,
+      // NetworkType? requiredNetworkType,
+      // bool? requiresBatteryNotLow,
+      // bool? requiresStorageNotLow,
+      // bool? requiresCharging,
+      // bool? requiresDeviceIdle
+      })
       : super(
-            stopOnTerminate: stopOnTerminate,
-            startOnBoot: startOnBoot,
-            enableHeadless: enableHeadless,
-            forceAlarmManager: forceAlarmManager,
-            requiredNetworkType: requiredNetworkType,
-            requiresBatteryNotLow: requiresBatteryNotLow,
-            requiresStorageNotLow: requiresStorageNotLow,
-            requiresCharging: requiresCharging,
-            requiresDeviceIdle: requiresDeviceIdle);
+            // stopOnTerminate: stopOnTerminate,
+            // startOnBoot: startOnBoot,
+            // enableHeadless: enableHeadless,
+            // forceAlarmManager: forceAlarmManager,
+            // requiredNetworkType: requiredNetworkType,
+            // requiresBatteryNotLow: requiresBatteryNotLow,
+            // requiresStorageNotLow: requiresStorageNotLow,
+            // requiresCharging: requiresCharging,
+            // requiresDeviceIdle: requiresDeviceIdle
+            );
 
   Map<String, dynamic> toMap() {
     var config = super.toMap();
@@ -261,26 +266,27 @@ class TaskConfig extends _AbstractTaskConfig {
       required this.delay,
       this.periodic = false,
       this.type = TaskType.DEFAULT,
-      bool? stopOnTerminate,
-      bool? startOnBoot,
-      bool? enableHeadless,
-      bool? forceAlarmManager,
-      NetworkType? requiredNetworkType,
-      bool? requiresBatteryNotLow,
-      bool? requiresStorageNotLow,
-      bool? requiresCharging,
-      bool? requiresDeviceIdle,
+      // bool? stopOnTerminate,
+      // bool? startOnBoot,
+      // bool? enableHeadless,
+      // bool? forceAlarmManager,
+      // NetworkType? requiredNetworkType,
+      // bool? requiresBatteryNotLow,
+      // bool? requiresStorageNotLow,
+      // bool? requiresCharging,
+      // bool? requiresDeviceIdle,
       this.requiresNetworkConnectivity = false})
       : super(
-            stopOnTerminate: stopOnTerminate,
-            startOnBoot: startOnBoot,
-            enableHeadless: enableHeadless,
-            forceAlarmManager: forceAlarmManager,
-            requiredNetworkType: requiredNetworkType,
-            requiresBatteryNotLow: requiresBatteryNotLow,
-            requiresStorageNotLow: requiresStorageNotLow,
-            requiresCharging: requiresCharging,
-            requiresDeviceIdle: requiresDeviceIdle);
+            // stopOnTerminate: stopOnTerminate,
+            // startOnBoot: startOnBoot,
+            // enableHeadless: enableHeadless,
+            // forceAlarmManager: forceAlarmManager,
+            // requiredNetworkType: requiredNetworkType,
+            // requiresBatteryNotLow: requiresBatteryNotLow,
+            // requiresStorageNotLow: requiresStorageNotLow,
+            // requiresCharging: requiresCharging,
+            // requiresDeviceIdle: requiresDeviceIdle
+            );
 
   Map<String, dynamic> toMap() {
     var config = super.toMap();
@@ -622,64 +628,64 @@ class BackgroundFetch {
   /// }
   /// ```
   ///
-  static Future<bool> registerHeadlessTask(Function callback) async {
-    var completer = Completer<bool>();
+  // static Future<bool> registerHeadlessTask(Function callback) async {
+  //   var completer = Completer<bool>();
 
-    int? callbackHandler =
-        PluginUtilities.getCallbackHandle(callback)?.toRawHandle();
+  //   int? callbackHandler =
+  //       PluginUtilities.getCallbackHandle(callback)?.toRawHandle();
 
-    if (callbackHandler == null) {
-      print(
-          '[BackgroundFetch registerHeadlessTask] ERROR: Failed to get callback id: Check whetever the callback is a op-level or static function');
-    }
-    // Two callbacks:  the provided headless-task + _headlessRegistrationCallback
-    var args = [
-      PluginUtilities.getCallbackHandle(_headlessCallbackDispatcher)!
-          .toRawHandle(),
-      callbackHandler ?? 0
-    ];
+  //   if (callbackHandler == null) {
+  //     print(
+  //         '[BackgroundFetch registerHeadlessTask] ERROR: Failed to get callback id: Check whetever the callback is a op-level or static function');
+  //   }
+  //   // Two callbacks:  the provided headless-task + _headlessRegistrationCallback
+  //   var args = [
+  //     PluginUtilities.getCallbackHandle(_headlessCallbackDispatcher)!
+  //         .toRawHandle(),
+  //     callbackHandler ?? 0
+  //   ];
 
-    _methodChannel
-        .invokeMethod('registerHeadlessTask', args)
-        .then((dynamic success) {
-      completer.complete(true);
-    }).catchError((error) {
-      var message = error.toString();
-      print('[BackgroundFetch registerHeadlessTask] ‼️ $message');
-      completer.complete(false);
-    });
-    return completer.future;
-  }
+  //   _methodChannel
+  //       .invokeMethod('registerHeadlessTask', args)
+  //       .then((dynamic success) {
+  //     completer.complete(true);
+  //   }).catchError((error) {
+  //     var message = error.toString();
+  //     print('[BackgroundFetch registerHeadlessTask] ‼️ $message');
+  //     completer.complete(false);
+  //   });
+  //   return completer.future;
+  // }
 }
 
 /// Headless Callback Dispatcher
 ///
-@pragma('vm:entry-point')
-void _headlessCallbackDispatcher() {
-  WidgetsFlutterBinding.ensureInitialized();
-  const _headlessChannel =
-      MethodChannel("$_PLUGIN_PATH/headless", JSONMethodCodec());
+// @pragma('vm:entry-point')
+// void _headlessCallbackDispatcher() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   const _headlessChannel =
+//       MethodChannel("$_PLUGIN_PATH/headless", JSONMethodCodec());
 
-  _headlessChannel.setMethodCallHandler((call) async {
-    final args = call.arguments;
+//   _headlessChannel.setMethodCallHandler((call) async {
+//     final args = call.arguments;
 
-    // Run the headless-task.
-    try {
-      final callback = PluginUtilities.getCallbackFromHandle(
-          CallbackHandle.fromRawHandle(args['callbackId']));
-      if (callback == null) {
-        print(
-            '[BackgroundFetch _headlessCallbackDispatcher] ERROR: Failed to get callback from handle: $args');
-        return;
-      }
-      var task = HeadlessTask(args['task']['taskId'], args['task']['timeout']);
-      callback(task);
-    } catch (e, stacktrace) {
-      print(
-          "[BackgroundFetch _headlessCallbackDispather] ‼️ Callback error: ${e.toString()}");
-      print(stacktrace);
-    }
-  });
-  // Signal to native side that the client dispatcher is ready to receive events.
-  _headlessChannel.invokeMethod('initialized');
-}
+//     // Run the headless-task.
+//     try {
+//       final callback = PluginUtilities.getCallbackFromHandle(
+//           CallbackHandle.fromRawHandle(args['callbackId']));
+//       if (callback == null) {
+//         print(
+//             '[BackgroundFetch _headlessCallbackDispatcher] ERROR: Failed to get callback from handle: $args');
+//         return;
+//       }
+//       var task = HeadlessTask(args['task']['taskId'], args['task']['timeout']);
+//       callback(task);
+//     } catch (e, stacktrace) {
+//       print(
+//           "[BackgroundFetch _headlessCallbackDispather] ‼️ Callback error: ${e.toString()}");
+//       print(stacktrace);
+//     }
+//   });
+//   // Signal to native side that the client dispatcher is ready to receive events.
+//   _headlessChannel.invokeMethod('initialized');
+// }

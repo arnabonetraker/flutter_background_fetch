@@ -2,12 +2,10 @@
 .atom/
 .dart_tool/
 .idea
-android/.idea
 .packages
 packages
 *.iml
 ios/.generated
-.gradle
 .pub/
 pubspec.lock
 doc/

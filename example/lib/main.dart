@@ -10,46 +10,46 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// SharedPreferences data key.
 const EVENTS_KEY = "fetch_events";
 
-/// This "Headless Task" is run when app is terminated.
-@pragma('vm:entry-point')
-void backgroundFetchHeadlessTask(HeadlessTask task) async {
-  var taskId = task.taskId;
-  var timeout = task.timeout;
-  if (timeout) {
-    print("[BackgroundFetch] Headless task timed-out: $taskId");
-    BackgroundFetch.finish(taskId);
-    return;
-  }
+// /// This "Headless Task" is run when app is terminated.
+// @pragma('vm:entry-point')
+// void backgroundFetchHeadlessTask(HeadlessTask task) async {
+//   var taskId = task.taskId;
+//   var timeout = task.timeout;
+//   if (timeout) {
+//     print("[BackgroundFetch] Headless task timed-out: $taskId");
+//     BackgroundFetch.finish(taskId);
+//     return;
+//   }
 
-  print("[BackgroundFetch] Headless event received: $taskId");
+//   print("[BackgroundFetch] Headless event received: $taskId");
 
-  var timestamp = DateTime.now();
+//   var timestamp = DateTime.now();
 
-  var prefs = await SharedPreferences.getInstance();
+//   var prefs = await SharedPreferences.getInstance();
 
-  // Read fetch_events from SharedPreferences
-  var events = <String>[];
-  var json = prefs.getString(EVENTS_KEY);
-  if (json != null) {
-    events = jsonDecode(json).cast<String>();
-  }
-  // Add new event.
-  events.insert(0, "$taskId@$timestamp [Headless]");
-  // Persist fetch events in SharedPreferences
-  prefs.setString(EVENTS_KEY, jsonEncode(events));
+//   // Read fetch_events from SharedPreferences
+//   var events = <String>[];
+//   var json = prefs.getString(EVENTS_KEY);
+//   if (json != null) {
+//     events = jsonDecode(json).cast<String>();
+//   }
+//   // Add new event.
+//   events.insert(0, "$taskId@$timestamp [Headless]");
+//   // Persist fetch events in SharedPreferences
+//   prefs.setString(EVENTS_KEY, jsonEncode(events));
 
-  if (taskId == 'flutter_background_fetch') {
-    BackgroundFetch.scheduleTask(TaskConfig(
-        taskId: "com.transistorsoft.customtask",
-        delay: 5000,
-        periodic: false,
-        forceAlarmManager: false,
-        stopOnTerminate: false,
-        enableHeadless: true
-    ));
-  }
-  BackgroundFetch.finish(taskId);
-}
+//   if (taskId == 'flutter_background_fetch') {
+//     BackgroundFetch.scheduleTask(TaskConfig(
+//         taskId: "com.transistorsoft.customtask",
+//         delay: 5000,
+//         periodic: false,
+//         forceAlarmManager: false,
+//         stopOnTerminate: false,
+//         enableHeadless: true
+//     ));
+//   }
+//   BackgroundFetch.finish(taskId);
+// }
 
 void main() {
   // Enable integration testing with the Flutter Driver extension.
@@ -58,7 +58,7 @@ void main() {
 
   // Register to receive BackgroundFetch events after app is terminated.
   // Requires {stopOnTerminate: false, enableHeadless: true}
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  // BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
 
 class MyApp extends StatefulWidget {
@@ -92,15 +92,15 @@ class _MyAppState extends State<MyApp> {
     try {
       var status = await BackgroundFetch.configure(BackgroundFetchConfig(
         minimumFetchInterval: 15,
-        forceAlarmManager: false,
-        stopOnTerminate: false,
-        startOnBoot: true,
-        enableHeadless: true,
-        requiresBatteryNotLow: false,
-        requiresCharging: false,
-        requiresStorageNotLow: false,
-        requiresDeviceIdle: false,
-        requiredNetworkType: NetworkType.NONE
+        // forceAlarmManager: false,
+        // stopOnTerminate: false,
+        // startOnBoot: true,
+        // enableHeadless: true,
+        // requiresBatteryNotLow: false,
+        // requiresCharging: false,
+        // requiresStorageNotLow: false,
+        // requiresDeviceIdle: false,
+        // requiredNetworkType: NetworkType.NONE
       ), _onBackgroundFetch, _onBackgroundFetchTimeout);
       print('[BackgroundFetch] configure success: $status');
       setState(() {
@@ -114,9 +114,9 @@ class _MyAppState extends State<MyApp> {
           taskId: "com.transistorsoft.customtask",
           delay: 10000,
           periodic: false,
-          forceAlarmManager: true,
-          stopOnTerminate: false,
-          enableHeadless: true
+          // forceAlarmManager: true,
+          // stopOnTerminate: false,
+          // enableHeadless: true
       ));
     } on Exception catch(e) {
       print("[BackgroundFetch] configure ERROR: $e");
@@ -191,9 +191,9 @@ class _MyAppState extends State<MyApp> {
         taskId: "com.transistorsoft.customtask",
         delay: 10000,
         periodic: false,
-        forceAlarmManager: false,
-        stopOnTerminate: false,
-        enableHeadless: true
+        // forceAlarmManager: false,
+        // stopOnTerminate: false,
+        // enableHeadless: true
     ));
   }
 
